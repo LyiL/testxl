@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <button> 点击下载 </button>
+</body>
+
+        <script>
+            var u = navigator.userAgent;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+            if(isAndroid){
+                var url = 'http://client02.pdl.wow.battlenet.com.cn/hs-pod/Tools/CN/hsbuild/Hearthstone_CN_Production.apk' //andriodURL
+            }else if(isiOS){
+                var url = 'https://github.com/twbs/bootstrap/archive/v3.3.7.zip' //IOSURL
+            }else{
+                var url = 'https://github.com/twbs/bootstrap/archive/v3.3.7.zip' //computerURL
+            }
+
+              var btnNode = document.getElementsByTagName('button')[0]
+                btnNode.onclick = function () {
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.click();
+                }
+        </script>
+</html>
+
