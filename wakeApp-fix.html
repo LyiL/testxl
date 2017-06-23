@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<button>start weixin</button>
+	</body>
+	<script>
+		onload = function(){
+			//判断平台类型
+			var u = navigator.userAgent.toLowerCase();  //获取平台信息
+			var iosUrl = 'https://www.apple.com'       //IOS 商店 应用链接
+			var andriodUrl = 'http://www.anzhi.com/'  //andriod 商店 应用链接
+			var Appurl = 'weixin://'     // 可以打开app 的url 链接
+//			var trident = u.indexOf('Trident') > -1, //IE内核
+//          var presto = u.indexOf('Presto') > -1, //opera内核
+//          var webKit = u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+//          var gecko = u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+
+//          var mobile = !!u.match(/AppleWebKit.*Mobile.*/)||!!u.match(/AppleWebKit/), //是否为移动终端
+
+            var ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+            
+            var android = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1, //android终端
+                 
+            var iPad = u.indexOf('iPad') > -1, //是否iPad
+            
+            var iPhone = u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+            //对于QQHD浏览器的判断网上的资料还不够清晰
+            
+			var weixin = u.indexOf('MicroMessenger') > -1 //是否微信 
+					
+			var baidu = u.search(/baidu/i) > -1  //判断是否为百度浏览器
+			//这个判断还不能确定是否正确
+			
+			var btnNode = document.getElementsByTagName('button')[0];
+			btnNode.onclick = function(){
+				
+				if(weixin){  //微信 浏览器的话要依赖应用宝来打开，如果有明确的QQHD正则，可以加入QQHD的判读
+					var appYybUrl = 'http://sj.qq.com/myapp/';
+					var aNode = document.createElement('a');
+					aNode.href = appYybUrl;					
+					aNode.onclick()  //是腾讯的浏览器（微信/qq）跳转到 app在应用宝的链接		
+					return;
+				}
+				
+				if(baidu){ //百度浏览器打开
+					var appbdUrl = 'http://shouji.baidu.com/appsearch';
+					var aNode = document.createElement('a');
+					aNode.href = appbdUrl;					
+					aNode.onclick()  //是百度的浏览器跳转到 app在百度软件中心的链接							
+					return
+				}
+				
+				var aNode = document.createElement('a')
+				aNode.href = iosUrl ?  : andriodUrl  //根据不同的终端引入不同的链接
+				
+				aNode.click = function(){
+					
+					var iframeNode = document.createElement('iframe');
+					iframeNode.src = Appurl;
+					iframeNode.style.display ='none';
+					document.body.appendChild(iframeNode);
+					setTimeout(function(){
+						document.body.removeChild(iframeNode)   //无论是否打开App都移除 iframeNode
+					},3000)
+					
+									
+				}
+				
+				aNode.click()  //打开APP 或者 链接到对应的app商店
+			}
+			
+			
+		}
+
+	</script>
+</html>
